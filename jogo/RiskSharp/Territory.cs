@@ -117,7 +117,7 @@ namespace RiskSharp
             this.name = name;
             this.continent = continent;
             this.armies = 0;
-        }        
+        }
 
         #region InitializeAdjacentTerritories
         private static bool adjacentTerritoriesAreInitialized = false;
@@ -157,7 +157,7 @@ namespace RiskSharp
             EastAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, Egypt, Madagascar, NorthAfrica, SouthAfrica, MiddleEast });
             Egypt.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { EastAfrica, NorthAfrica, MiddleEast, SouthernEurope });
             Madagascar.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { EastAfrica, SouthAfrica });
-            NorthAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, EastAfrica, Egypt, SouthAfrica, SouthernEurope, WesternEurope });
+            NorthAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, EastAfrica, Egypt, SouthAfrica, SouthernEurope, WesternEurope, Brazil });
             SouthAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, EastAfrica, Madagascar });
 
             //ASIA
