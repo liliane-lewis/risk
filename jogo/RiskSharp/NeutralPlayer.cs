@@ -34,5 +34,9 @@ namespace RiskSharp
             this.AvailableArmies--;
             this.Game.UpdateLabelInfo(this.ControlledTerritories[i]);
         }
+        public override void AttackTerritory()
+        {
+            return;
+        }
     }
 }

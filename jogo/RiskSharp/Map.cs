@@ -66,9 +66,47 @@ namespace RiskSharp
             return npf.SelectedName;
         }
 
+        public int ReadNumberOfArmies(int max)
+        {
+            Invoke(new Action(() => 
+            {
+                this.Hide();
+            }));
+            
+            bool valorValido = false;
+            ArmyNumber an = new ArmyNumber();
+            do
+            {
+                Invoke(new Action(() =>
+                {
+                    an.ShowDialog();
+                }));
+                
+                valorValido = an.Number <= max;
+                if (!valorValido)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        MessageBox.Show("Invalid value!");
+                    }));
+                }
+                    
+            }
+            while (!valorValido);
+            Invoke(new Action(() =>
+            {
+                this.Show();
+            }));
+            
+            return an.Number;
+
+        }
+
         public Territory ReadTerritory()
         {
-            return this.selectedTerritory;
+            var sel = this.selectedTerritory;
+            this.selectedTerritory = null;
+            return sel;
         }
 
         public void WriteCurrentPlayerInfo(Player p)
@@ -92,6 +130,11 @@ namespace RiskSharp
         {
             Application.DoEvents();
             game = new Game(this);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

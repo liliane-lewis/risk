@@ -56,5 +56,6 @@ namespace RiskSharp
 
         public abstract void PlaceArmyOnUncontrolledTerritory();
         public abstract void PlaceArmyOnOwnTerritory();
+        public abstract void AttackTerritory();
     }
 }

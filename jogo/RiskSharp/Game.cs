@@ -37,6 +37,11 @@ namespace RiskSharp
             this.Draft();
         }
 
+        public int ReadNumberOfArmies(int max)
+        {
+            return this.mapForm.ReadNumberOfArmies(max);
+        }
+
         private void Draft()
         {
             var bw = new BackgroundWorker();
@@ -59,9 +64,30 @@ namespace RiskSharp
                     i++;
                 }
                 while (player1.AvailableArmies > 0 && player2.AvailableArmies > 0 && neutral.AvailableArmies > 0);
+                this.Turn();
             });
             bw.RunWorkerAsync();
 
+            
+
+        }
+
+        private void Turn()
+        {
+            var bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler((sender, e) =>
+            {
+                int i = 0;
+                do
+                {
+                    this.mapForm.WriteCurrentPlayerInfo(players[i % players.Count]);
+                    players[i % players.Count].AttackTerritory();
+
+                    i++;
+                }
+                while (true);
+            });
+            bw.RunWorkerAsync();
         }
 
         public Territory ReadTerritoryByController(Player controller)
@@ -73,6 +99,19 @@ namespace RiskSharp
                 t = this.mapForm.ReadTerritory();
             }
             while (t == null || t.Controller != controller);
+
+            return t;
+        }
+
+        public Territory ReadTerritory()
+        {
+            Territory t;
+
+            do
+            {
+                t = this.mapForm.ReadTerritory();
+            }
+            while (t == null);
 
             return t;
         }

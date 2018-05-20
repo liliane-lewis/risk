@@ -73,6 +73,7 @@
             this.lblNewGuinea = new System.Windows.Forms.Label();
             this.lblWesternAustralia = new System.Windows.Forms.Label();
             this.lblNorthwestTerritory = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -486,11 +487,22 @@
             this.lblNorthwestTerritory.TabIndex = 44;
             this.lblNorthwestTerritory.Text = "label1";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(837, 634);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(92, 23);
+            this.button1.TabIndex = 45;
+            this.button1.Text = "End your turn";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Map
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1211, 764);
+            this.ClientSize = new System.Drawing.Size(1211, 733);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblNorthwestTerritory);
             this.Controls.Add(this.lblWesternAustralia);
             this.Controls.Add(this.lblNewGuinea);
@@ -594,7 +606,7 @@
         private System.Windows.Forms.Label lblNewGuinea;
         private System.Windows.Forms.Label lblWesternAustralia;
         private System.Windows.Forms.Label lblNorthwestTerritory;
-
+        private System.Windows.Forms.Button button1;
     }
 }
 
