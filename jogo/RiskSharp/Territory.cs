@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace RiskSharp
 {
@@ -102,6 +103,20 @@ namespace RiskSharp
             set { this.armies = value; }
         }
 
+        private Player controller;
+        public Player Controller
+        {
+            get { return this.controller; }
+            set { this.controller = value; }
+        }
+
+        private Label label;
+        public Label Label
+        {
+            get { return this.label; }
+            set { this.label = value; }
+        }
+
         public static Territory GetTerritoryByColor(Color c)
         {
             if (!dictIsInitialized)
@@ -117,7 +132,22 @@ namespace RiskSharp
             this.name = name;
             this.continent = continent;
             this.armies = 0;
+            this.controller = null;
         }
+
+        public static int UncontrolledTerritories
+        {
+            get
+            {
+                int ret = 0;
+                foreach (Territory t in Territories)
+                {
+                    if (t.controller == null)
+                        ret++;
+                }
+                return ret;
+            }
+        }        
 
         #region InitializeAdjacentTerritories
         private static bool adjacentTerritoriesAreInitialized = false;
@@ -127,7 +157,7 @@ namespace RiskSharp
                 return;
 
             //NORTH AMERICA
-            Alaska.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Alberta, Greenland, Kamchatka });
+            Alaska.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Alberta, NorthwestTerritory, Kamchatka });
             Alberta.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Alaska, NorthwestTerritory, Ontario, Quebec });
             CentralAmerica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { EasternUSA, WesternUSA, Venezuela });
             EasternUSA.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { CentralAmerica, Ontario, Quebec, WesternUSA });
@@ -145,7 +175,7 @@ namespace RiskSharp
 
             //EUROPE
             GreatBritain.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Iceland, NorthernEurope, Scandinavia, WesternEurope });
-            Iceland.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { GreatBritain, Scandinavia, Alaska });
+            Iceland.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { GreatBritain, Scandinavia, Greenland });
             NorthernEurope.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { GreatBritain, Scandinavia, SouthernEurope, Ukraine, WesternEurope });
             Scandinavia.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { GreatBritain, Iceland, NorthernEurope, Ukraine });
             SouthernEurope.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { NorthernEurope, Ukraine, WesternEurope, MiddleEast, Egypt, NorthAfrica });
@@ -157,7 +187,7 @@ namespace RiskSharp
             EastAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, Egypt, Madagascar, NorthAfrica, SouthAfrica, MiddleEast });
             Egypt.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { EastAfrica, NorthAfrica, MiddleEast, SouthernEurope });
             Madagascar.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { EastAfrica, SouthAfrica });
-            NorthAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, EastAfrica, Egypt, SouthAfrica, SouthernEurope, WesternEurope, Brazil });
+            NorthAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, EastAfrica, Egypt, SouthernEurope, WesternEurope, Brazil });
             SouthAfrica.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Congo, EastAfrica, Madagascar });
 
             //ASIA
@@ -175,7 +205,7 @@ namespace RiskSharp
             Yakutsk.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Irkutsk, Kamchatka, Siberia });
 
             //AUSTRALIA
-            EasternAustralia.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { Indonesia, NewGuinea, WesternAustralia });
+            EasternAustralia.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { NewGuinea, WesternAustralia });
             Indonesia.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { NewGuinea, WesternAustralia, Siam });
             NewGuinea.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { EasternAustralia, Indonesia, WesternAustralia });
             WesternAustralia.adjacentTerritories = new ReadOnlyCollection<Territory>(new Territory[] { EasternAustralia, Indonesia, NewGuinea });
@@ -188,12 +218,12 @@ namespace RiskSharp
         public readonly static Territory Alaska = new Territory("Alaska", Continent.NorthAmerica);
         public readonly static Territory Alberta = new Territory("Alberta", Continent.NorthAmerica);
         public readonly static Territory CentralAmerica = new Territory("Central America", Continent.NorthAmerica);
-        public readonly static Territory EasternUSA = new Territory("Eastern United States", Continent.NorthAmerica);
+        public readonly static Territory EasternUSA = new Territory("Eastern USA", Continent.NorthAmerica);
         public readonly static Territory Greenland = new Territory("Greenland", Continent.NorthAmerica);
         public readonly static Territory NorthwestTerritory = new Territory("Northwest Territory", Continent.NorthAmerica);
         public readonly static Territory Ontario = new Territory("Ontario", Continent.NorthAmerica);
         public readonly static Territory Quebec = new Territory("Quebec", Continent.NorthAmerica);
-        public readonly static Territory WesternUSA = new Territory("Western United States", Continent.NorthAmerica);
+        public readonly static Territory WesternUSA = new Territory("Western USA", Continent.NorthAmerica);
         #endregion
 
         #region South America
@@ -244,5 +274,9 @@ namespace RiskSharp
         public readonly static Territory WesternAustralia = new Territory("Western Australia", Continent.Australia);
         #endregion
         #endregion
+
+        public static ReadOnlyCollection<Territory> Territories = new ReadOnlyCollection<Territory>(new Territory[] { Alaska, Alberta, CentralAmerica, EasternUSA, Greenland, NorthwestTerritory,
+            Ontario, Quebec, WesternUSA, Argentina, Brazil, Peru, Venezuela, GreatBritain, Iceland, NorthernEurope, Scandinavia, SouthernEurope, Ukraine, WesternEurope, Congo, EastAfrica, Egypt,
+            Madagascar, NorthAfrica, SouthAfrica, Afghanistan, China, India, Irkutsk, Japan, Kamchatka, MiddleEast, Mongolia, Siam, Siberia, Ural, Yakutsk, EasternAustralia, Indonesia, NewGuinea, WesternAustralia});
     }
 }

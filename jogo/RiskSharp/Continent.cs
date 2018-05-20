@@ -34,6 +34,8 @@ namespace RiskSharp
             this.territories = new ReadOnlyCollection<Territory>(territories);
         }
 
+        public static ReadOnlyCollection<Continent> Continents = new ReadOnlyCollection<Continent>(new Continent[] { NorthAmerica, SouthAmerica, Europe, Africa, Asia, Australia });
+
         public readonly static Continent NorthAmerica = new Continent("North America", 5, new Territory[] { Territory.Alaska, Territory.Alberta, Territory.CentralAmerica, Territory.EasternUSA, Territory.Greenland, Territory.NorthwestTerritory, Territory.Ontario, Territory.Quebec, Territory.WesternUSA });
         public readonly static Continent SouthAmerica = new Continent("South America", 2, new Territory[] { Territory.Argentina, Territory.Brazil, Territory.Peru, Territory.Venezuela });
         public readonly static Continent Europe = new Continent("Europe", 5, new Territory[] { Territory.GreatBritain, Territory.Iceland, Territory.NorthernEurope, Territory.Scandinavia, Territory.SouthernEurope, Territory.Ukraine, Territory.WesternEurope });
